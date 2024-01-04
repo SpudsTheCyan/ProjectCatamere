@@ -1,6 +1,5 @@
 from tinydb import TinyDB, Query
 import random
-from sentiment_analysis import get_sentiment, df
 
 db = TinyDB('catamere_db.json')
 Query = Query()
@@ -8,8 +7,7 @@ Query = Query()
 def static_select() -> str:
     table = db.table("outcomes")
     result = table.search(Query.static.exists())
-    outcome = random.choice(result[0]["static"][0])
-    return outcome
+    outcome = random.choice(result[0]["static"][0]) 
 
 def dynamic_select() -> str:
     table = db.table("outcomes")
@@ -21,7 +19,22 @@ def dynamic_select() -> str:
     outcome = f"{random.choice(word_one_list)} {random.choice(word_two_list)}"
     return outcome
 
-for _ in range(10):
-    outcome = static_select()
-    print(f"{outcome}, {get_sentiment(outcome[0])}")
-# df.to_csv("parsed_dataset_catamere.csv")
+def append_outcome(outcome:str) -> list[str]:
+    table = db.table("outcomes")
+    result = table.search(Query.static.exists())
+    outcomes = result[0]["static"][0]
+    outcomes.append("test test")
+
+    return outcomes
+
+def update_outcomes(outcome_list:list[str]) -> list[str]:
+    table = db.table("outcomes")
+    result = table.search(Query.static.exists())
+    old_outcomes = set(result[0]["static"][0])
+    # diff = [x for x in outcome_list if x not in old_outcomes]
+
+    table.update({"static": [(outcome_list)]})
+
+    return old_outcomes
+
+print(update_outcomes(append_outcome("test test")))
