@@ -7,7 +7,8 @@ Query = Query()
 def static_select() -> str:
     table = db.table("outcomes")
     result = table.search(Query.static.exists())
-    outcome = random.choice(result[0]["static"][0]) 
+    outcome = random.choice(result[0]["static"][0])
+    return outcome
 
 def dynamic_select() -> str:
     table = db.table("outcomes")
@@ -36,5 +37,3 @@ def update_outcomes(outcome_list:list[str]) -> list[str]:
     table.update({"static": [(outcome_list)]})
 
     return old_outcomes
-
-print(update_outcomes(append_outcome("test test")))
