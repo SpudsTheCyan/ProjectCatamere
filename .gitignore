@@ -160,7 +160,7 @@ cython_debug/
 #.idea/
 
 /catamere-env/
-/.vscode.
+/.vscode/*
 wand_outcomes.txt
 parsed_dataset_catamere.csv
 catamere_db.json
