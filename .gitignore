@@ -164,3 +164,5 @@ cython_debug/
 wand_outcomes.txt
 parsed_dataset_catamere.csv
 catamere_db.json
+start_webserver.sh
+templates/index.html

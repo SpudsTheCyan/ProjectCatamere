@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Catamere: Static Generator</title>
+    <title>Project Catamere: Dynamic Generator</title>
 </head>
 
 <body style="background:#169c9d">
     
     <form id="static-form">
-        <h2>Static Generator</h2>
+        <h2>Dynamic Generator</h2>
         <button id="generate" type="button">Generate!</button>
         <button id="home" type="button">Back</button>
     </form>
@@ -24,7 +24,7 @@
             $("#generate").on("click",function(){
                 $.ajax({
                     type : "POST",
-                    url : "/project-catamere/static-gen",
+                    url : "/project-catamere/dynamic-gen",
                     success: function(response) {
                         $("#output").text(response.output).show();
                     }

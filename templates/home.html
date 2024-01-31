@@ -1,16 +1,57 @@
 <html lang="en">
+
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Project Catamere</title>
     </head>
+
     <body style="background:#169c9d">
+
         <h1>Project Catamere</h1>
         <p1>Select Mode:</p1>
+
         <br>
-        <form action="{{ url_for('static_gen') }}">
-            <input type="submit" value="Static Generator">
+
+        <form id="form">
+            <button id="static" type="button" >Static Generator</button>
+            <button id="dynamic" type="button">Dynamic Generator</button>
         </form>
+
+        <div id="output"></div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $("#static").click(function(){
+                    $.ajax({
+                        data : {
+                            redirecturl : "/project-catamere/static-gen"
+                        },
+                        type : "POST",
+                        url : "/project-catamere",
+                        success : function(response) {
+                            window.location.href = response.url;
+                        }
+                    });
+                });
+                $("#dynamic").click(function(){
+                    $.ajax({
+                        data : {
+                            redirecturl : "/project-catamere/dynamic-gen"
+                        },
+                        type : "POST",
+                        url : "project-catamere",
+                        success : function(response) {
+                            window.location.href = response.url;
+                        }
+                    });
+                });
+            });
+        </script>
+    
         <!-- funny fish picture-->
-        <!-- image src="https://media.tenor.com/R5IECfIf34YAAAAd/fish-spinning.gif"></image -->
+        <image src="https://media.tenor.com/R5IECfIf34YAAAAd/fish-spinning.gif"></image>
     </body>
 </html>
