@@ -1,5 +1,5 @@
 from tinydb import TinyDB, Query
-import random
+import random, datetime
 
 db = TinyDB('catamere_db.json')
 Query = Query()
@@ -20,20 +20,14 @@ def dynamic_select() -> str:
     outcome = f"{random.choice(word_one_list)} {random.choice(word_two_list)}"
     return outcome
 
-def append_outcome(outcome:str) -> list[str]:
+def get_outcomes() -> list[str]:
     table = db.table("outcomes")
     result = table.search(Query.static.exists())
     outcomes = result[0]["static"][0]
-    outcomes.append("test test")
-
     return outcomes
 
-def update_outcomes(outcome_list:list[str]) -> list[str]:
+def update_outcomes(outcome_list:list[str]) -> None:
     table = db.table("outcomes")
-    result = table.search(Query.static.exists())
-    old_outcomes = set(result[0]["static"][0])
-    # diff = [x for x in outcome_list if x not in old_outcomes]
-
     table.update({"static": [(outcome_list)]})
 
-    return old_outcomes
+    return None

@@ -13,45 +13,110 @@
 
         <br>
 
-        <form id="form">
-            <button id="static" type="button" >Static Generator</button>
-            <button id="dynamic" type="button">Dynamic Generator</button>
+        <form id="typeselect">
+            <button id="static" type="button" name="static">Static Generator</button>
+            <button id="dynamic" type="button" name="dynamic">Dynamic Generator</button>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+            <script>
+                $(document).ready(function() {
+                    $("#static").click(function() {
+                        $.ajax({
+                            data : {
+                                id : "static",
+                                redirecturl : "/project-catamere/static-gen"
+                            },
+                            type : "POST",
+                            url : "/project-catamere",
+                            success : function(response) {
+                                window.location.href = response.url;
+                            }
+                        });
+                    });
+                    $("#dynamic").click(function() {
+                        $.ajax({
+                            data : {
+                                id : "dynamic",
+                                redirecturl : "/project-catamere/dynamic-gen"
+                            },
+                            type : "POST",
+                            url : "project-catamere",
+                            success : function(response) {
+                                window.location.href = response.url;
+                            }
+                        });
+                    });
+                });
+            </script>
         </form>
 
-        <div id="output"></div>
+        <form id="outcomes" action="/project-catamere" method="post">
+            <input type="hidden" name="id" value="save">
+            <button id="outcomebutton" type="button" name="outcomebutton">Edit Outcomes</button>
+            <textarea id="outcomefield" name="outcomefield" style="display: none; height: 50px; overflow: auto;"></textarea>
+            <button id="save" type="submit" name="save" style="display: none;">Save</button>
+            <button id="cancel" type="button" name="cancel" style="display: none;">Cancel</button>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-        <script>
-            $(document).ready(function() {
-                $("#static").click(function(){
-                    $.ajax({
-                        data : {
-                            redirecturl : "/project-catamere/static-gen"
-                        },
-                        type : "POST",
-                        url : "/project-catamere",
-                        success : function(response) {
-                            window.location.href = response.url;
-                        }
+            <script>
+                $(document).ready(function() {
+                    // unhides and populates outcomes field
+                    $("#outcomebutton").click(function() {
+                        $.ajax({
+                            data : {
+                                id : "edit"
+                            },
+                            type : "POST",
+                            url : "project-catamere",
+                            success : function(response) {
+                                $("#outcomefield").val(response.database);
+                                $("#outcomefield").show();
+                                $("#save").show();
+                                $("#cancel").show();
+                            }
+                        })
+                    });
+                    $('#typeselect').on('submit',function(event){
+                        $.ajax({
+                            data : {
+                                id : "save"
+                            },
+                            type : "POST",
+                            url : "project-catamere",
+                            success : function() {
+                                
+                                $("#outcomefield").hide();
+                                $("#save").hide();
+                                $("#cancel").hide();
+                                $("#outcomefield").val("");
+                            }
+                        })
+                    });
+                    $("#cancel").click(function() {
+                        $.ajax({
+                            data : {
+                                id : "cancel"
+                            },
+                            type : "POST",
+                            url : "project-catamere",
+                            success : function() {
+                                $("#outcomefield").hide();
+                                $("#save").hide();
+                                $("#cancel").hide();
+                                $("#outcomefield").val("");
+                            }
+                        })
                     });
                 });
-                $("#dynamic").click(function(){
-                    $.ajax({
-                        data : {
-                            redirecturl : "/project-catamere/dynamic-gen"
-                        },
-                        type : "POST",
-                        url : "project-catamere",
-                        success : function(response) {
-                            window.location.href = response.url;
-                        }
-                    });
-                });
-            });
-        </script>
-    
+            </script>
+
+            <script>
+                if ( window.history.replaceState ) {
+                window.history.replaceState( null, null, window.location.href );
+                }
+            </script>
+                
         <!-- funny fish picture-->
-        <image src="https://media.tenor.com/R5IECfIf34YAAAAd/fish-spinning.gif"></image>
+        <image src="https://media.tenor.com/R5IECfIf34YAAAAd/fish-spinning.gif" style="display: none;"></image>
     </body>
 </html>
