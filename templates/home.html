@@ -59,25 +59,26 @@
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
             <script>
-                $(document).ready(function() {
-                    // unhides and populates outcomes field
-                    $("#outcomebutton").click(function() {
-                        $.ajax({
-                            data : {
-                                id : "edit"
-                            },
-                            type : "POST",
-                            url : "project-catamere",
-                            success : function(response) {
-                                $("#outcomefield").val(response.database);
-                                $("#outcomefield").show();
-                                $("#save").show();
-                                $("#cancel").show();
-                            }
-                            error: function() {        alert("Invalid            data! Add               outcomes in             pairs of 2's            sepersted by s          space!");
-                            }
-                        })
-                    });
+                    $(document).ready(function() {
+                        // unhides and populates outcomes field
+                        $("#outcomebutton").click(function() {
+                            $.ajax({
+                                data : {
+                                    id : "edit"
+                                },
+                                type : "POST",
+                                url : "project-catamere",
+                                success : function(response) {
+                                    $("#outcomefield").val(response.database);
+                                    $("#outcomefield").show();
+                                    $("#save").show();
+                                    $("#cancel").show();
+                                },
+                                error: function() {
+                                    alert("Invalid data! Add outcomes in pairs of  2's separated by space!");
+                                }
+                            });
+                        });
                     $('#typeselect').on('submit',function(event){
                         $.ajax({
                             data : {
