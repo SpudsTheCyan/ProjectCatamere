@@ -14,8 +14,13 @@ def home():
                 return jsonify({'database' : outcomeStr})
             case 'save':
                 newOutcomes = (request.form['outcomefield']).split("\r\n")
-                update_outcomes(newOutcomes)
-                return render_template('home.html')
+                newOutcomesSplit = [*item.split(" ") for item in newOutcomes]
+                if newOutcomesSplit % 2 == 0:
+                  update_outcomes(newOutcomes)
+                  return render_template('home.html')
+                else:
+                  flash('Invalid data!.', 'error')
+                  return jsonify({'status': 'error', 'message': 'Invalid data!'})
             case _:
                 return render_template('home.html')
     else:
