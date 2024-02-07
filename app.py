@@ -14,7 +14,8 @@ def home():
                 return jsonify({'database' : outcomeStr})
             case 'save':
                 newOutcomes = (request.form['outcomefield']).split("\r\n")
-                newOutcomesSplit = [*item.split(" ") for item in newOutcomes]
+                newOutcomesSplit = [item.split(" ") for item in newOutcomes]
+
                 if newOutcomesSplit % 2 == 0:
                   update_outcomes(newOutcomes)
                   return render_template('home.html')
