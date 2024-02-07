@@ -108,12 +108,12 @@
                                 $("#cancel").hide();
                                 $("#outcomefield").val("");
                             }
+                            error: function() {
+                              alert("Invalid          data!");
+                            }
                         })
                     });
                 });
-                error: function() {
-                  alert("Invalid data!");
-                }
             </script>
 
             <script>
