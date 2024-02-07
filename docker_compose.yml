@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  main:
+    build: .
+    container_name: project-catamere
+    restart: unless-stopped
+    volumes:
+      - /app/:/home/pi/Documents/ProjectCatamere
+
+volumes:
+  app:

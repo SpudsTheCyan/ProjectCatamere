@@ -33,6 +33,11 @@ def dynamic_gen():
         return jsonify({'output': dynamic_select()})
     return render_template('dynamic.html')
 
+if __name__ == "__main__":
+    # from waitress import serve
+    # serve(app, host="0.0.0.0", "port":8080)
+    pass
+
 # to avoid having to include port in url, look into reverse proxy server or SRV records
 
 # URL(s):
