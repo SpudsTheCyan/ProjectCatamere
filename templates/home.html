@@ -74,24 +74,29 @@
                                     $("#save").show();
                                     $("#cancel").show();
                                 },
-                                error: function() {
-                                    alert("Invalid data! Add outcomes in pairs of  2's separated by space!");
-                                }
                             });
                         });
-                    $('#typeselect').on('submit',function(event){
+                    $("#outcomes").on("submit",function(event){
+                        event.preventDefault();
+                        var formData = new FormData(this);
+                        formData.append('id', 'save');
                         $.ajax({
-                            data : {
-                                id : "save"
-                            },
+                            data : formData,
                             type : "POST",
                             url : "project-catamere",
-                            success : function() {
-                                
-                                $("#outcomefield").hide();
-                                $("#save").hide();
-                                $("#cancel").hide();
-                                $("#outcomefield").val("");
+                            processData: false,
+                            contentType: false,
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.status === "success") {
+                                    alert(response.message);
+                                    $("#outcomefield").hide();
+                                    $("#save").hide();
+                                    $("#cancel").hide();
+                                    $("#outcomefield").val("");
+                                } else if (response.status === "error") {
+                                    alert(response.message);
+                                }
                             }
                         })
                     });

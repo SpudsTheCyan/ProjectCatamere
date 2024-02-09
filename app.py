@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, flash
 from catamere_functions import static_select, dynamic_select, get_outcomes, update_outcomes
 app = Flask(__name__)
 
@@ -13,15 +13,15 @@ def home():
                 outcomeStr = '\n'.join(get_outcomes())
                 return jsonify({'database' : outcomeStr})
             case 'save':
-                newOutcomes = (request.form['outcomefield']).split("\r\n")
-                newOutcomesSplit = [item.split(" ") for item in newOutcomes]
+                newOutcomes = (request.form['outcomefield']).split('\r\n')
+                newOutcomesSplit = [word for item in newOutcomes for word in item.split(' ')]
 
-                if newOutcomesSplit % 2 == 0:
-                  update_outcomes(newOutcomes)
-                  return render_template('home.html')
+                if len(newOutcomesSplit) % 2 == 0:
+                    update_outcomes(newOutcomes)
+                    return jsonify({'status': 'success', 'message': 'Outcomes Updated!'})
                 else:
-                  flash('Invalid data!.', 'error')
-                  return jsonify({'status': 'error', 'message': 'Invalid data!'})
+                    return jsonify({'status': 'error', 'message': 'Invalid data! Add outcomes in pairs of  2\'s separated by space!'})
+
             case _:
                 return render_template('home.html')
     else:
@@ -39,9 +39,9 @@ def dynamic_gen():
         return jsonify({'output': dynamic_select()})
     return render_template('dynamic.html')
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     # from waitress import serve
-    # serve(app, host="0.0.0.0", "port":8080)
+    # serve(app, host='0.0.0.0', 'port':8080)
     pass
 
 # to avoid having to include port in url, look into reverse proxy server or SRV records
